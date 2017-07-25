@@ -1,0 +1,98 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="home-boxes">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+      img {
+        @apply --layout-fit;
+        max-width: 100%;
+        max-height: 100%;
+        margin: 0 auto;
+        opacity: 0;
+        transition: 0.5s opacity;
+        @apply --shop-image-img;
+      }
+    </style>
+        
+    <iron-ajax
+    auto 
+    url="http://localhost:3000/consumer/api/v1/boxes"
+    method="get"
+    handle-as="json"
+    last-response="{{boxList}}"
+    on-response="listChanged"></iron-ajax>
+      <template is="dom-repeat" items="{{boxList.boxes}}">
+        <!-- <paper-card heading="[[item.title]]" image="http://placehold.it/350x150/FFC107/000000" alt="Emmental">
+          <div class="card-content">
+            [[item.saving_title]]
+          </div>
+          <div class="card-actions">
+            <paper-button>Share</paper-button>
+            <paper-button>Explore!</paper-button>
+          </div>
+        </paper-card> -->
+        <div class="card">
+          <img id="img" src="[[item.photo_url]]">
+          <blockquote>[[item.title]]</blockquote>
+        </div>
+
+          <!-- <paper-material elevation="1" class="paper-font-body2">
+              <h1>[[item.title]]</h1>
+              <iron-image src="[[item.photo_url]]" preload fade></iron-image>
+              <p>[[item.saving_title]]</p>
+          </paper-material> -->
+      </template>      
+  </template>>
+  
+
+  <!-- <template>
+    
+    <iron-ajax
+    id="getBoxAjax"
+    auto 
+    url="http://localhost:3000/consumer/api/v1/boxes"
+    method="get"
+    handle-as="text"
+    last-response="{{box}}"></iron-ajax>
+
+    <div class="card">
+      <h1>Boxes</h1>
+      <blockquote>[[box.last.title]]</blockquote>
+      <paper-button raised on-tap="getQuote" class="primary">Get a New Quote</paper-button>
+    </div>
+
+  </template> -->
+
+  <script>
+    (function() {
+      Polymer({
+        is: 'home-boxes',
+        properties: {
+            boxList: {type: Array, value: ()=>{return []}, notify: true}
+        },
+        listChanged: function(oldValue) {
+            console.log(this.boxList);
+            // this.headers;
+        }
+      });
+    }());
+  </script>
+</dom-module>
