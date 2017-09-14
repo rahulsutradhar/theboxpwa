@@ -20,7 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-route/app-route.html">
 
 <!-- Loading Custom Elements -->
-<link rel="import" href="customcomponents/general/supertabs.html">
+<link rel="import" href="customcomponents/general/super-tabs.html">
 <link rel="import" href="customcomponents/home/subscription-fragment.html">
 <link rel="import" href="customcomponents/home/store-fragment.html">
 <link rel="import" href="customcomponents/home/deliveries-fragment.html">
@@ -36,7 +36,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="lazy-import" href="my-view404.html">
 
 <!-- Component Definition -->
-<dom-module id="home">
+<dom-module id="home-activity">
   <template>
 
     <!-- Styling -->
@@ -80,6 +80,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-weight: bold;
       }
 
+      super-tabs {
+        --tabs-background-colour: blue;
+        --tabs-colour: yellow;
+      }
+
     </style>
     <!-- TODO: Understand what this tag means -->
     <app-location route="{{route}}"></app-location>
@@ -113,7 +118,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </app-header>
 
 
-        <supertabs selected= "1">
+        <super-tabs selected= "1">
           <!-- Declaring Tabs -->
           <paper-tab>Subscriptions</paper-tab>
           <paper-tab>Store</paper-tab>
@@ -122,16 +127,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <subscription-fragment name="subscription-fragment" class="page"></subscription-fragment>
           <store-fragment name="store-fragment" class="page"></store-fragment>
           <deliveries-fragment name="deliveries-fragment" class="page"></deliveries-fragment>
-        </supertabs>
+        </super-tabs>
       </app-header-layout>
-
     </app-drawer-layout>
   </template>
 
   <script>
-    class Home extends Polymer.Element {
+    class HomeActivity extends Polymer.Element {
 
-      static get is() { return 'home'; }
+      static get is() { return 'home-activity'; }
 
       static get properties() {
         return {
@@ -192,6 +196,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     }
 
-    window.customElements.define(Homoe.is, Home);
+    window.customElements.define(HomeActivity.is, HomeActivity);
   </script>
 </dom-module>
