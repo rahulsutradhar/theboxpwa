@@ -8,6 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
+<!-- Loading native components  -->
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
@@ -17,20 +18,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
-<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
-<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+
+<!-- Loading Custom Elements -->
+<link rel="import" href="customcomponents/general/supertabs.html">
+<link rel="import" href="customcomponents/home/subscription-fragment.html">
+<link rel="import" href="customcomponents/home/store-fragment.html">
+<link rel="import" href="customcomponents/home/deliveries-fragment.html">
+
+<!-- Loading Other Assets -->
 <link rel="import" href="my-icons.html">
 
+<!-- Lazy Loading -->
+<!-- TODO Understand lazy import -->
 <link rel="lazy-import" href="home-boxes.html">
 <link rel="lazy-import" href="my-view2.html">
 <link rel="lazy-import" href="my-view3.html">
 <link rel="lazy-import" href="my-view404.html">
 
-<dom-module id="my-app">
+<!-- Component Definition -->
+<dom-module id="home">
   <template>
+
+    <!-- Styling -->
     <style>
+
+    /* TODO: Undertsnad this block */
       :host {
         --app-primary-color: #4285f4;
         --app-secondary-color: black;
@@ -68,13 +80,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-weight: bold;
       }
 
-      paper-tabs {
-            background-color: black;
-            color: #fff;
-      }
     </style>
-
+    <!-- TODO: Understand what this tag means -->
     <app-location route="{{route}}"></app-location>
+    <!-- TODO: Understand what this tag means -->
     <app-route
         route="{{route}}"
         pattern="[[rootPattern]]:page"
@@ -103,32 +112,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </app-toolbar>
         </app-header>
 
-        <paper-tabs selected = "0">
+
+        <supertabs selected= "1">
+          <!-- Declaring Tabs -->
           <paper-tab>Subscriptions</paper-tab>
           <paper-tab>Store</paper-tab>
           <paper-tab>Deliveries</paper-tab>
-        </paper-tabs>
-
-        <iron-pages
-            selected="[[page]]"
-            attr-for-selected="name"
-            fallback-selection="view404"
-            role="main">
-          <home-boxes name="home-boxes"></my-view1>
-          <my-view2 name="view2"></my-view2>
-          <my-view3 name="view3"></my-view3>
-          <my-new-view name="new-view"></my-new-view>
-          <my-view404 name="view404"></my-view404>
-        </iron-pages>
+          <!-- Declaring Pages -->
+          <subscription-fragment name="subscription-fragment" class="page"></subscription-fragment>
+          <store-fragment name="store-fragment" class="page"></store-fragment>
+          <deliveries-fragment name="deliveries-fragment" class="page"></deliveries-fragment>
+        </supertabs>
       </app-header-layout>
 
     </app-drawer-layout>
   </template>
 
   <script>
-    class MyApp extends Polymer.Element {
+    class Home extends Polymer.Element {
 
-      static get is() { return 'my-app'; }
+      static get is() { return 'home'; }
 
       static get properties() {
         return {
@@ -189,6 +192,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     }
 
-    window.customElements.define(MyApp.is, MyApp);
+    window.customElements.define(Homoe.is, Home);
   </script>
 </dom-module>
