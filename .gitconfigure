@@ -1,0 +1,2 @@
+git config --global user.name "Vaibhav Chhimpa"
+git config --global user.email vaibhav@thebox.one
