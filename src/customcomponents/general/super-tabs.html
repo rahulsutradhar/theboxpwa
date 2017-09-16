@@ -12,7 +12,6 @@
 <dom-module id="super-tabs">
   <template>
     <style>
-    /* TODO: Undertand this block */
       :host {
         display: block;
       }
@@ -27,15 +26,17 @@
       }
     </style>
 
-    <!-- TODO: {BOOKMARK} content is not rendering
-  https://gist.github.com/toby-1-kenobi/0070cd2a600bd570f83496e8adf64053
- -->
     <paper-tabs selected="{{selected}}">
-          <content select="paper-tab"></content>
+          <!-- <content select="paper-tab"></content> -->
+          <paper-tab>Subscriptions</paper-tab>
+          <paper-tab>Store</paper-tab>
+          <paper-tab>Deliveries</paper-tab>
     </paper-tabs>
 
     <iron-pages selected="{{selected}}">
-      <content selected=".page"></content>
+      <subscription-fragment name="subscription-fragment" class="page"></subscription-fragment>
+      <store-fragment name="store-fragment" class="page"></store-fragment>
+      <deliveries-fragment name="deliveries-fragment" class="page"></deliveries-fragment>
     </iron-pages>
 
   </template>

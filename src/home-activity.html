@@ -29,7 +29,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="my-icons.html">
 
 <!-- Lazy Loading -->
-<!-- TODO Understand lazy import -->
 <link rel="lazy-import" href="home-boxes.html">
 <link rel="lazy-import" href="my-view2.html">
 <link rel="lazy-import" href="my-view3.html">
@@ -42,7 +41,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <!-- Styling -->
     <style>
 
-    /* TODO: Undertsnad this block */
       :host {
         --app-primary-color: #4285f4;
         --app-secondary-color: black;
@@ -86,9 +84,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
     </style>
-    <!-- TODO: Understand what this tag means -->
     <app-location route="{{route}}"></app-location>
-    <!-- TODO: Understand what this tag means -->
     <app-route
         route="{{route}}"
         pattern="[[rootPattern]]:page"
@@ -120,13 +116,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <super-tabs selected= "1">
           <!-- Declaring Tabs -->
-          <paper-tab>Subscriptions</paper-tab>
+          <!-- <paper-tab>Subscriptions</paper-tab>
           <paper-tab>Store</paper-tab>
-          <paper-tab>Deliveries</paper-tab>
+          <paper-tab>Deliveries</paper-tab> -->
           <!-- Declaring Pages -->
-          <subscription-fragment name="subscription-fragment" class="page"></subscription-fragment>
+          <!-- <subscription-fragment name="subscription-fragment" class="page"></subscription-fragment>
           <store-fragment name="store-fragment" class="page"></store-fragment>
-          <deliveries-fragment name="deliveries-fragment" class="page"></deliveries-fragment>
+          <deliveries-fragment name="deliveries-fragment" class="page"></deliveries-fragment> -->
         </super-tabs>
       </app-header-layout>
     </app-drawer-layout>
