@@ -1,23 +1,54 @@
 <!-- Loading Native Components -->
 
+<!-- Loading Custom Elements -->
+<link rel="import" href="img-carousel/img-carousel.html">
+
 <!-- Component Definition -->
 <dom-module id="store-fragment">
   <template>
     <style>
-    :host {
-        display: block;
+      :host {
+          display: block;
       }
+
+      img-carousel {
+        width: 100%;
+        /* TODO: Whats this? */
+        contain: content;
+      }
+
+      img-carousel::after {
+        display: block;
+        /* TODO: What is content here? */
+        content: '';
+        padding-top: 75%; /* 4:3 = height is 75% of width */
+      }
+
+      img-carousel img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+</style>
     </style>
 
-    <div>
-      Store will be shown here
-    </div>
+    <img-carousel>
+      <img src="../../../images/sample.png"> </img>
+      <img src="../../../images/sample1.jpg"> </img>
+      <img src="../../../images/sample2.jpeg"> </img>
+      <img src="../../../images/sample2.jpg"> </img>
+    </img-carousel>
+
   </template>
 
   <script>
-  Polymer({
+    Polymer({
       is: "store-fragment"
     });
+
+    // AutoRotating the images
+    // const carousel = document.querySelector('img-carousel');
+    // setInterval(_ => carousel.next(), 3000);
   </script>
 
 </dom-module>
