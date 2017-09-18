@@ -1,0 +1,26 @@
+<dom-module id="box-list">
+  <template>
+    <style>
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+    </style>
+    <div class="card">
+      <div class="header-row">
+        <img data-src="https://app-layout-assets.appspot.com/assets/bg1.jpg">
+        <h1>The Milk Box</h1>
+      </div>
+      <category-carousel></category-carousel>
+    </div>
+  </template>
+
+  <script>
+    class MyView3 extends Polymer.Element {
+      static get is() { return 'my-view3'; }
+    }
+
+    window.customElements.define(MyView3.is, MyView3);
+  </script>
+</dom-module>
