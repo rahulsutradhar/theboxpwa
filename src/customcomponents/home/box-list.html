@@ -1,3 +1,9 @@
+<!-- Loading Native Components -->
+
+<!-- Loading Custom Elements -->
+<link rel="import" href="category-carousel.html">
+
+<!-- Component Definition -->
 <dom-module id="box-list">
   <template>
     <style>
@@ -6,21 +12,49 @@
 
         padding: 10px;
       }
+
+      category-carousel {
+        width: 100%;
+        /* TODO: Whats this? */
+        contain: content;
+      }
+
+      category-carousel::after {
+        display: block;
+        /* TODO: What is content here? */
+        content: '';
+        padding-top: 75%; /* 4:3 = height is 75% of width */
+      }
+
+      category-carousel img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
     </style>
-    <div class="card">
-      <div class="header-row">
+
+    <div>
+
+      <div>
         <img data-src="https://app-layout-assets.appspot.com/assets/bg1.jpg">
         <h1>The Milk Box</h1>
       </div>
-      <category-carousel></category-carousel>
+
+      <category-carousel>
+        <img data-src="https://app-layout-assets.appspot.com/assets/bg1.jpg">
+        <img data-src="https://app-layout-assets.appspot.com/assets/bg2.jpg">
+        <img data-src="https://app-layout-assets.appspot.com/assets/bg3.jpg">
+        <img data-src="https://app-layout-assets.appspot.com/assets/bg4.jpg">
+      </category-carousel>
+
     </div>
   </template>
 
   <script>
-    class MyView3 extends Polymer.Element {
-      static get is() { return 'my-view3'; }
+    class BoxList extends Polymer.Element {
+      static get is() { return 'box-list'; }
     }
 
-    window.customElements.define(MyView3.is, MyView3);
+    window.customElements.define(BoxList.is, BoxList);
   </script>
 </dom-module>

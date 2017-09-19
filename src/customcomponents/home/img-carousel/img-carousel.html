@@ -68,17 +68,6 @@
             super.connectedCallback();
           }
 
-
-        //Setting properties and observers
-        // static get properties() {
-        //   return {
-        //     selected: {
-        //       type: Object,
-        //       observer: '_selectedChanged'
-        //     }
-        //   };
-        // }
-
         _selectedChanged(selected, oldSelected) {
           super._selectedChanged(selected, oldSelected);
 
@@ -281,23 +270,6 @@
           // Reset touch direction
           this._touchDir = null;
         }
-
-        // Reseting to first child if notihing is selected
-        // _resetSelected() {
-        //   if (!this.selected || this.selected.parentElement !== this) {
-        //       this.selected = this.firstElementChild;
-        //   }
-        // }
-
-        //This is called after initial properties are set.
-        //It is called again when elements are added/refreshed
-        // connectedCallback() {
-        //   super.connectedCallback();
-        //
-        //   this.shadowRoot.addEventListener('slotchange', this._resetSelected.bind(this));
-        //   this._resetSelected();
-        // }
-
       }
 
       // Register custom element definition using standard platform API
