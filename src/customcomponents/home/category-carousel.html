@@ -18,6 +18,7 @@
     }
 
     div > ::slotted(:not([selected])) {
+      /* TODO: Add fade or other effect */
       display: none;
     }
 
@@ -62,7 +63,7 @@
   </template>
 
   <script>
-    class CategoryCarousel extends Polymer.Element {
+    class CategoryCarousel extends  CaraouselMixin(Polymer.Element) {
       static get is() { return 'category-carousel'; }
       connectedCallback() {
         super.connectedCallback();
