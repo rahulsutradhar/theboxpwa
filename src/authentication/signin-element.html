@@ -112,11 +112,9 @@
                         <!-- Request Otp -->
                         <template is="dom-if" if="{{requestOtp}}" id="signinForm">
                             <div>
-
                                 <!-- For for Request Otp for the Phone Number -->
                                 <iron-form id="requestOtpForm" allow-redirect="false">
                                     <form is="iron-form">
-
                                         <paper-input id="inputPhoneNumber"
                                                      invalid$="{{mobileNumberValidation}}"
                                                      pattern="[0-9]*"
@@ -127,25 +125,21 @@
                                                      value="{{mobileNumber}}">
                                             <div slot="prefix">+91</div>
                                         </paper-input>
-
                                     </form>
                                 </iron-form>
+
                                 <paper-button raised on-click="_onButtonClickSignIn"
                                               class="paper-button-main"
                                               id="buttonSignIn">Sign In
                                 </paper-button>
-
                             </div>
                         </template>
 
                         <!-- Submit Otp-->
                         <template is="dom-if" if="{{!requestOtp}}">
                             <div>
-                                <p class="otp-text-message">An Otp has been send to your mobile number
-                                    +91-{{mobileNumber}}</p>
-
+                                <p class="otp-text-message">An Otp has been send to your mobile number +91-{{mobileNumber}}</p>
                                 <!--Form for OTP Submission -->
-
                                 <form is="iron-form" id="submitOtpForm"
                                       method="post">
                                     <paper-input id="imputOtp" invalid$="{{otpValidation}}"
@@ -156,17 +150,10 @@
                                                  error-message="{{errorMessageOtpNumber}}" value="{{otpNumber}}">
                                     </paper-input>
 
-
-                                    <paper-button raised on-click="_onButtonClickSubmitOtp"
-                                                  class="paper-button-main"
-                                                  id="buttonSubmitOtp">Submit
-                                    </paper-button>
-
+                                    <paper-button raised on-click="_onButtonClickSubmitOtp" class="paper-button-main" id="buttonSubmitOtp">Submit</paper-button>
                                 </form>
 
-                                <paper-button class="resend-button" on-click="_onButtonClickResendOtp">Resend Otp
-                                </paper-button>
-
+                                <paper-button class="resend-button" on-click="_onButtonClickResendOtp">Resend Otp</paper-button>
                             </div>
                         </template>
 
@@ -180,7 +167,6 @@
                                    on-response="_responseRequestOtp"
                                    on-error="_errorResponseRequestOtp"
                                    content-type="application/json">
-
                         </iron-ajax>
 
                     </div>
@@ -190,10 +176,6 @@
 
     </template>
     <script>
-        /**
-         * @customElement
-         * @Polymer
-         */
         class SigninElement extends Polymer.Element {
             static get is() {
                 return 'signin-element';
@@ -312,7 +294,8 @@
              */
             _createRequestOtpBody(mobileNumber) {
                 let body = {
-                    "phone_number": mobileNumber
+                    // "phone_number": mobileNumber
+                    "phone_number": 7715900078
                 };
                 console.log("Phone Number body- " + JSON.stringify(body));
                 return JSON.stringify(body);
