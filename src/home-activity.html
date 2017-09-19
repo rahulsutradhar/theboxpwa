@@ -18,6 +18,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/app-layout/app-box/app-box.html">
+<link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 
 <!-- Loading Custom Elements -->
 <link rel="import" href="customcomponents/general/super-tabs.html">
@@ -42,8 +48,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
 
       :host {
-        --app-primary-color: #4285f4;
-        --app-secondary-color: black;
+        --app-primary-color: #5949AD;
+        --app-secondary-color: #727272;
+        --app-accent-color: #F44336;
+        --paper-button-ink-color: #FFF;
+        --paper-icon-button-ink-color: #FFF;
+        --app-drawer-width: 256px;
 
         display: block;
       }
@@ -53,16 +63,98 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       app-header {
-        color: #fff;
-        background-color: var(--app-primary-color);
+         @apply (--layout-fixed-top);
+         color: #fff;
+         background-color: var(--app-primary-color);
+         --app-header-shadow: {
+             box-shadow: inset 0px 5px 6px -3px rgba(0, 0, 0, 0.2);
+             height: 10px;
+             bottom: -10px;
+         };
       }
 
       app-header paper-icon-button {
         --paper-icon-button-ink-color: white;
       }
 
+      app-drawer {
+          top: 64px;
+          --app-drawer-content-container: {
+              box-shadow: 1px 0 2px 1px rgba(0, 0, 0, 0.18);
+              padding: 0px;
+              background-color: #fff;
+          };
+      }
+
+      .left-bar-navigation-menu {
+          width: 40px;
+      }
+
+      .menu-btn {
+          display: none;
+      }
+
+      .back-btn {
+      }
+
+      .logo a {
+          font-size: 18px;
+          color: #fff;
+          font-weight: 500;
+          color: #FFF;
+          text-decoration: none;
+          /* required for IE 11, so this <a> can receive pointer events */
+          display: inline-block;
+          pointer-events: auto;
+      }
+
+      .container-logo {
+          position: relative;
+          display: flex;
+      }
+
+      .image-logo {
+          width: 24px;
+          height: 24px;
+      }
+
+      .title-text {
+          margin-left: 10px;
+      }
+
+      .cart-btn-container {
+          position: relative;
+          width: 40px;
+      }
+
+      .cart-badge {
+          position: absolute;
+          top: -2px;
+          right: 0;
+          width: 20px;
+          height: 20px;
+          background-color: var(--app-accent-color);
+          border-radius: 50%;
+          color: white;
+          font-size: 12px;
+          font-weight: 500;
+          pointer-events: none;
+          @apply (--layout-vertical);
+          @apply (--layout-center-center);
+      }
+
+      .large-screen {
+          margin-left: 10%;
+          margin-left: 10%;
+      }
+
+
       .drawer-list {
         margin: 0 20px;
+      }
+
+      .drawer-width {
+          margin-left: 256px;
       }
 
       .drawer-list a {
@@ -83,7 +175,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         --tabs-colour: yellow;
       }
 
+
+      /*for Small screen*/
+      @media (max-width: 767px) {
+          :host {
+              --app-drawer-width: 300px;
+          }
+          .menu-btn {
+              display: block;
+          }
+          .drawer-width {
+              margin-left: 0px;
+          }
+          .large-screen {
+              margin-left: 0%;
+              margin-left: 0%;
+          }
+          app-drawer {
+              top: 0px;
+          }
+          .title-text {
+              margin-left: 0px;
+          }
+      }
     </style>
+
     <app-location route="{{route}}"></app-location>
     <app-route
         route="{{route}}"
@@ -91,9 +207,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
 
-    <app-drawer-layout fullbleed force-narrow>
+    <!-- Media Query to detect screen size -->
+    <iron-media-query query="(max-width:767px)" query-matches="{{smallScreen}}"></iron-media-query>
+
+
+    <!--Show fixed Drawer for large screen and overlay for small screen-->
+    <app-drawer-layout fullbleed force-narrow$="[[smallScreen]]" >
       <!-- Drawer content -->
-      <app-drawer id="drawer" slot="drawer">
+      <app-drawer id="drawer"  slot="drawer" opened="{{drawerOpened}}" swipe-open persistent$="[[!smallScreen]]" >
         <app-toolbar>Menu</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
           <a name="home-boxes" href="home-boxes">Boxes</a>
@@ -108,30 +229,73 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <app-header slot="header" condenses reveals effects="waterfall">
           <app-toolbar>
-            <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
-            <div main-title>The Box</div>
+
+            <!-- NOTE: Removed below two lines to test the code -->
+            <!-- <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button> -->
+            <!-- <div main-title>The Box</div> -->
+
+            <!-- Menu and Back Button -->
+            <div class="left-bar-navigation-menu">
+                <paper-icon-button
+                        class="menu-btn"
+                        icon="menu"
+                        on-click="_toggleDrawer"
+                        aria-label="Categories">
+                </paper-icon-button>
+                <a class="back-btn" href="" tabindex="-1" hidden>
+                    <paper-icon-button icon="arrow-back" aria-label="Go back"></paper-icon-button>
+                </a>
+            </div>
+
+            <!-- Logo or title -->
+            <div class="logo" main-title>
+                <a href="/" aria-label="The Box Home">
+                    <div class="container-logo">
+                        <!--Logo -->
+                        <img id="image-logo" hidden$="[[smallScreen]]" class="image-logo"
+                             src="../../images/Logo.svg">
+                        <!-- Title Text -->
+                        <span id="title" class="title-text">The Box</span>
+                    </div>
+                </a>
+            </div>
+
+             <!-- Search -->
+             <div class="search-btn-container">
+                 <a href="/">
+                     <paper-icon-button icon="search" aria-level="search"></paper-icon-button>
+                 </a>
+             </div>
+
+             <!--  Cart Icon-->
+             <div class="cart-btn-container">
+                 <a href="/cart" tabindex="-1">
+                     <paper-icon-button icon="shopping-cart" aria-level="cart"></paper-icon-button>
+                 </a>
+                 <div class="cart-badge">2</div>
+             </div>
           </app-toolbar>
         </app-header>
 
+        <!-- Custome Element -->
+        <super-tabs selected= "1"></super-tabs>
 
-        <super-tabs selected= "1">
-          <!-- Declaring Tabs -->
-          <!-- <paper-tab>Subscriptions</paper-tab>
-          <paper-tab>Store</paper-tab>
-          <paper-tab>Deliveries</paper-tab> -->
-          <!-- Declaring Pages -->
-          <!-- <subscription-fragment name="subscription-fragment" class="page"></subscription-fragment>
-          <store-fragment name="store-fragment" class="page"></store-fragment>
-          <deliveries-fragment name="deliveries-fragment" class="page"></deliveries-fragment> -->
-        </super-tabs>
       </app-header-layout>
     </app-drawer-layout>
+
   </template>
 
   <script>
     class HomeActivity extends Polymer.Element {
 
       static get is() { return 'home-activity'; }
+
+      /**
+       * Drawer toggle
+       */
+      _toggleDrawer() {
+          this.drawerOpened = !this.drawerOpened;
+      }
 
       static get properties() {
         return {

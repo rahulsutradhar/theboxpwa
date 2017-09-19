@@ -1,0 +1,49 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../src/authentication/signin-element.html">
+<link rel="import" href="../../src/home-activity.html">
+
+<dom-module id="check-auth">
+    <template>
+
+        <div id="container">
+            <signin-element authenticated="{{isAuthenticated}}">
+            </signin-element>
+        </div>
+
+    </template>
+    <script>
+        class CheckAuth extends Polymer.Element {
+            static get is() {
+                return 'check-auth';
+            }
+            static get properties() {
+                return {
+                    isAuthenticated: {
+                        type: Boolean,
+                        observer: '_checkAuthentication'
+                    }
+                }
+            }
+            /**
+             * Observer Function: Called When property vlaue change
+             *
+             * @param isAuthenticated
+             * @param newIsAuthenticated
+             * @private
+             */
+            _checkAuthentication(isAuthenticated, newIsAuthenticated) {
+                if (isAuthenticated) {
+                    console.log('Authenticated - INSIDE ' + isAuthenticated);
+                    this.remove();
+                    //add the home-activity element
+                    var dynamicEl = document.createElement("home-activity");
+                    document.body.appendChild(dynamicEl);
+                }
+            }
+        }
+        window.customElements.define(CheckAuth.is, CheckAuth);
+    </script>
+
+</dom-module>

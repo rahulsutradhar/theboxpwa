@@ -1,13 +1,3 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -65,12 +55,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </script>
 
+    <!-- Global Configuration Values -->
+    <script>
+        window.MyAppConfig = {
+            stagging_api_endpoint: 'http://staging.thebox.one',
+            prod_api_endpoint: 'http://api.thebox.one',
+            is_stagging: true
+        }
+    </script>
+
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
     <!-- TODO: What are polyfills? -->
     <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
 
     <!-- Load your application shell -->
-    <link rel="import" href="src/home-activity.html">
+    <!-- NOTE: Removing home activity to add authentication -->
+    <!-- <link rel="import" href="src/home-activity.html"> -->
+
+    <!--Loading Authentication Service -->
+    <link rel="import" href="/src/authentication/check-auth.html">
 
     <!-- Add any global styles for body, document, etc. -->
     <style>
@@ -84,7 +87,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
   </head>
   <body>
-    <home-activity></home-activity>
+
+    <!-- NOTE: Removing home activity to add authentication -->
+    <!-- <home-activity></home-activity> -->
+    <check-auth></check-auth>
+
     <noscript>
       Please enable JavaScript to view this website.
     </noscript>

@@ -1,0 +1,330 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="signin-element">
+    <template>
+        <style>
+            :host {
+                --app-primary-color: #5949AD;
+                --app-secondary-color: #727272;
+                --app-accent-color: #F44336;
+                background: #f4b400;
+                max-width: 100vw;
+                max-height: 100vh;
+                width: 100%;
+                height: 100%;
+                --paper-input-container-focus-color: #4CAF50;
+                --paper-button: {
+                    margin: 0px;
+                };
+            }
+            .content-container {
+                margin-left: 30%;
+                margin-right: 30%;
+                margin-top: 10%;
+            }
+            paper-card {
+                width: 100%;
+                height: 100%;
+                padding: 20px;
+            }
+            .container-logo {
+                text-align: center;
+                margin-bottom: 20px;
+                margin-top: 20px;
+            }
+            .logo {
+                display: inline-block;
+            }
+            .container-form {
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-bottom: 30px;
+            }
+            paper-input {
+                width: 100%;
+                font-family: 'Roboto', 'Noto', sans-serif;
+                font-size: 14px;
+                font-weight: normal;
+                margin-bottom: 30px;
+            }
+            paper-button {
+                font-family: 'Roboto', 'Noto', sans-serif;
+                font-weight: bold;
+                font-size: 14px;
+            }
+            .paper-button-main {
+                width: 100%;
+                background: #4CAF50;
+                color: #fff;
+            }
+            .resend-button {
+                margin-top: 10px;
+                float: right;
+            }
+            .arrow-back {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+            }
+            .otp-text-message {
+                font-family: 'Roboto', 'Noto', sans-serif;
+                font-weight: normal;
+                font-size: 12px;
+                text-align: center;
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            /*For Small Screen*/
+            @media (max-width: 767px) {
+                .content-container {
+                    margin-left: 5px;
+                    margin-right: 5px;
+                    margin-top: 5px;
+                }
+            }
+        </style>
+
+        <div id="maincontent" class="content-container">
+            <!-- Request Otp Form -->
+            <paper-card>
+                <div>
+                    <!-- Back Button: Active when OTP form is active -->
+                    <template is="dom-if" if="{{!requestOtp}}">
+                        <div class="arrow-back">
+                            <paper-icon-button on-click="_onButtonClickBackArrow" icon="arrow-back"></paper-icon-button>
+                        </div>
+                    </template>
+
+                    <!-- Logo Template -->
+                    <div class="container-logo">
+                        <img class="logo" src="../../images/Logo.svg">
+                    </div>
+
+                    <!-- Main Form Area-->
+                    <div class="container-form">
+                        <!-- Request Otp -->
+                        <template is="dom-if" if="{{requestOtp}}" id="signinForm">
+                            <div>
+
+                                <!-- For for Request Otp for the Phone Number -->
+                                <iron-form id="requestOtpForm" allow-redirect="false">
+                                    <form is="iron-form">
+
+                                        <paper-input id="inputPhoneNumber"
+                                                     invalid$="{{mobileNumberValidation}}"
+                                                     pattern="[0-9]*"
+                                                     maxlength="10"
+                                                     minlenght="10"
+                                                     label="Mobile Number"
+                                                     error-message="{{errorMessageMobileNumber}}"
+                                                     value="{{mobileNumber}}">
+                                            <div slot="prefix">+91</div>
+                                        </paper-input>
+
+                                    </form>
+                                </iron-form>
+                                <paper-button raised on-click="_onButtonClickSignIn"
+                                              class="paper-button-main"
+                                              id="buttonSignIn">Sign In
+                                </paper-button>
+
+                            </div>
+                        </template>
+
+                        <!-- Submit Otp-->
+                        <template is="dom-if" if="{{!requestOtp}}">
+                            <div>
+                                <p class="otp-text-message">An Otp has been send to your mobile number
+                                    +91-{{mobileNumber}}</p>
+
+                                <!--Form for OTP Submission -->
+
+                                <form is="iron-form" id="submitOtpForm"
+                                      method="post">
+                                    <paper-input id="imputOtp" invalid$="{{otpValidation}}"
+                                                 pattern="[0-9]*"
+                                                 maxlength="6"
+                                                 minlenght="6"
+                                                 label="OTP"
+                                                 error-message="{{errorMessageOtpNumber}}" value="{{otpNumber}}">
+                                    </paper-input>
+
+
+                                    <paper-button raised on-click="_onButtonClickSubmitOtp"
+                                                  class="paper-button-main"
+                                                  id="buttonSubmitOtp">Submit
+                                    </paper-button>
+
+                                </form>
+
+                                <paper-button class="resend-button" on-click="_onButtonClickResendOtp">Resend Otp
+                                </paper-button>
+
+                            </div>
+                        </template>
+
+                        <!-- iron Ajax for request OTP-->
+                        <iron-ajax id="ajaxRequestOtp"
+                                   method="POST"
+                                   url="[[apiEndPoint]]/consumer/api/v1/user-sms-auth"
+                                   body="{{requestOtpBody}}"
+                                   handle-as="json"
+                                   headers='{"Accept": "application/json"}'
+                                   on-response="_responseRequestOtp"
+                                   on-error="_errorResponseRequestOtp"
+                                   content-type="application/json">
+
+                        </iron-ajax>
+
+                    </div>
+                </div>
+            </paper-card>
+        </div>
+
+    </template>
+    <script>
+        /**
+         * @customElement
+         * @Polymer
+         */
+        class SigninElement extends Polymer.Element {
+            static get is() {
+                return 'signin-element';
+            }
+            static get properties() {
+                return {
+                    apiEndPoint: {
+                        type: String,
+                        value: ((MyAppConfig.is_stagging == true ) ? MyAppConfig.stagging_api_endpoint : MyAppConfig.prod_api_endpoint)
+                    },
+                    requestOtp: {
+                        type: Boolean,
+                        value: true
+                    },
+                    mobileNumber: {
+                        type: String,
+                        value: null
+                    },
+                    otpNumber: {
+                        type: String,
+                        value: null
+                    },
+                    authenticated: {
+                        type: Boolean,
+                        notify: true
+                    },
+                    mobileNumberValidation: {
+                        type: Boolean
+                    },
+                    otpValidation: {
+                        type: Boolean
+                    },
+                    errorMessageMobileNumber: {
+                        type: String
+                    },
+                    errorMessageOtpNumber: {
+                        type: String
+                    },
+                    requestOtpBody: {
+                        type: String,
+                        computed: '_createRequestOtpBody(mobileNumber)',
+                        notify: true
+                    }
+                };
+            }
+            ready() {
+                super.ready();
+            }
+            /**
+             * Sign in Button Clicked
+             * @private
+             */
+            _onButtonClickSignIn(e) {
+                console.log("Called");
+                if (this.mobileNumber == null || this.mobileNumber === '') {
+                    this.mobileNumberValidation = true;
+                    this.errorMessageMobileNumber = 'Please enter Mobile Number';
+                } else {
+                    //Check for 10 digit Number
+                    if (this.mobileNumber.length === 10) {
+                        this.mobileNumberValidation = false;
+                        this.errorMessageMobileNumber = '';
+                        //make a network call now to request for otp
+                        // this.requestOtp = !this.requestOtp;
+                        // let form = this.shadowRoot.querySelector('form');
+                        let ajaxCall = this.$.ajaxRequestOtp.generateRequest();
+                        if (ajaxCall) {
+                            console.log("Not null");
+                        } else {
+                            console.log("NULL");
+                        }
+                    } else {
+                        this.mobileNumberValidation = true;
+                        this.errorMessageMobileNumber = 'Invalid Mobile Number';
+                    }
+                }
+            }
+            /**
+             * Submit Otp Clicked
+             * @private
+             */
+            _onButtonClickSubmitOtp() {
+                if (this.otpNumber == null || this.otpNumber === '') {
+                    this.otpValidation = true;
+                    this.errorMessageOtpNumber = 'Please enter Otp';
+                } else {
+                    //check for 6 digit number
+                    if (this.otpNumber.length === 6) {
+                        this.otpValidation = false;
+                        this.errorMessageOtpNumber = '';
+                        //make a network call now to submit otp
+                        this.set('authenticated', true);
+                    } else {
+                        this.otpValidation = true;
+                        this.errorMessageOtpNumber = 'Invaid Otp';
+                    }
+                }
+            }
+            /**
+             * Resend Otp clicked
+             * @private
+             */
+            _onButtonClickResendOtp() {
+            }
+            /**
+             * Back Button Press
+             * @private
+             */
+            _onButtonClickBackArrow() {
+                this.requestOtp = !this.requestOtp;
+            }
+            /**
+             * Request Otp body
+             * @param mobileNumber
+             * @private
+             */
+            _createRequestOtpBody(mobileNumber) {
+                let body = {
+                    "phone_number": mobileNumber
+                };
+                console.log("Phone Number body- " + JSON.stringify(body));
+                return JSON.stringify(body);
+            }
+            _responseRequestOtp(response) {
+                console.log("Request Success Ajax - " + response.detail);
+            }
+            _errorResponseRequestOtp(errorResponse) {
+                console.log('Request failed Ajax - ' + errorResponse.detail.request.xhr.response);
+            }
+        }
+        window.customElements.define(SigninElement.is, SigninElement);
+    </script>
+
+</dom-module>

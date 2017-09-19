@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="34px" height="34px" viewBox="0 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
+    <title>Home Logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Home-Logo" transform="translate(0.000000, -1.000000)">
+            <g id="Logo">
+                <g transform="translate(0.000000, 0.000000)">
+                    <g id="Lower-Left-Colored" transform="translate(0.927734, 10.000000)">
+                        <polygon id="Corner" fill="#5DCBF4" points="7 18 0 18 0 25 7 25"></polygon>
+                        <polygon id="Vertical" fill="#3BB44A" points="0 18 0 0 7 0 7 18"></polygon>
+                        <polygon id="Horizontal" fill="#FDE04D" points="7 18 25 18 25 25 10 25 7 25"></polygon>
+                    </g>
+                    <g id="Upper-Right-Colored" transform="translate(8.697411, 0.112009)">
+                        <polygon id="Path-479" fill="#FDE04D" points="0.230323636 7.88799107 0.230323636 0.887991071 18.2303236 0.887991071 18.2303236 7.88799107"></polygon>
+                        <polygon id="Path-480" fill="#F79420" points="18.2303236 7.88799107 25.2303236 7.88799107 25.2303236 0.887991071 18.2303236 0.887991071"></polygon>
+                        <polygon id="Path-481" fill="#EF5060" points="18.2303236 7.88799107 18.2303236 25.8879911 25.2303236 25.8879911 25.2303236 7.88799107"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
